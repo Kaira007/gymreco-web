@@ -4,7 +4,8 @@ import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://gymreco.app',
+  site: 'https://kaira007.github.io',
+  base: '/gymreco-web',
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],
