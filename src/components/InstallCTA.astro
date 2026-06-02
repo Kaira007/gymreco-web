@@ -39,11 +39,11 @@ const copy = locale === 'ja'
     </div>
     <div class="cta-buttons">
       <a href={playStoreUrl} class="store-btn" target="_blank" rel="noopener">
-        <img src="/badges/google-play.png" alt={copy.google} />
+        <img src={`${import.meta.env.BASE_URL}badges/google-play.png`} alt={copy.google} />
       </a>
       {appStoreUrl !== '#' && (
         <a href={appStoreUrl} class="store-btn" target="_blank" rel="noopener">
-          <img src="/badges/app-store.svg" alt={copy.apple} />
+          <img src={`${import.meta.env.BASE_URL}badges/app-store.svg`} alt={copy.apple} />
         </a>
       )}
     </div>

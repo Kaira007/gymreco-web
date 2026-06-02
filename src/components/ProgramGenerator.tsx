@@ -264,10 +264,10 @@ function PostGenerateCTA({ locale }: { locale: Locale }) {
           }</p>
           <div class="store-badges">
             <a href={isJa ? PLAY_STORE_JA : PLAY_STORE_EN} target="_blank" rel="noopener" aria-label="Google Play">
-              <img src="/badges/google-play.png" alt={isJa ? 'Google Play で入手' : 'Get it on Google Play'} style="height:40px;width:auto;" />
+              <img src={import.meta.env.BASE_URL + 'badges/google-play.png'} alt={isJa ? 'Google Play で入手' : 'Get it on Google Play'} style="height:40px;width:auto;" />
             </a>
             <a href={isJa ? APP_STORE_JA : APP_STORE_EN} target="_blank" rel="noopener" aria-label="App Store">
-              <img src="/badges/app-store.svg" alt={isJa ? 'App Store でダウンロード' : 'Download on the App Store'} style="height:40px;width:auto;" />
+              <img src={import.meta.env.BASE_URL + 'badges/app-store.svg'} alt={isJa ? 'App Store でダウンロード' : 'Download on the App Store'} style="height:40px;width:auto;" />
             </a>
           </div>
         </div>

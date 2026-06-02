@@ -92,7 +92,7 @@ const APP_STORE  = 'https://apps.apple.com/us/app/gymreco-ai/id6764790714';
         <div class="phone">
           <div class="phone__notch"></div>
           <div class="phone__screen">
-            <img src="/screenshots/ai_menu_preview_eng.png" alt="GymReco AI app screenshot" />
+            <img src={`${import.meta.env.BASE_URL}screenshots/ai_menu_preview_eng.png`} alt="GymReco AI app screenshot" />
           </div>
         </div>
         <div class="readout readout--top">
@@ -181,10 +181,10 @@ const APP_STORE  = 'https://apps.apple.com/us/app/gymreco-ai/id6764790714';
           <p>The GymReco app carries your generated program into every session — auto-progressing loads, rest timers and progress charts included.</p>
           <div class="store-badges">
             <a href={PLAY_STORE} aria-label="Google Play" target="_blank" rel="noopener">
-              <img src="/badges/google-play.png" alt="Get it on Google Play" />
+              <img src={`${import.meta.env.BASE_URL}badges/google-play.png`} alt="Get it on Google Play" />
             </a>
             <a href={APP_STORE} aria-label="App Store" target="_blank" rel="noopener">
-              <img src="/badges/app-store.svg" alt="Download on the App Store" />
+              <img src={`${import.meta.env.BASE_URL}badges/app-store.svg`} alt="Download on the App Store" />
             </a>
           </div>
         </div>
