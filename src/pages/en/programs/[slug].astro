@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { ProgramGenerator } from '../../../components/ProgramGenerator';
+import { programMeta } from '../../../lib/programs/index';
+import { useTranslations, localePath } from '../../../i18n';
+import '../../../styles/generator.css';
+
+export function getStaticPaths() {
+  return programMeta.map(meta => ({ params: { slug: meta.slug }, props: { meta } }));
+}
+
+const { meta } = Astro.props;
+const locale = 'en';
+const t = useTranslations(locale);
+
+const levelBadge = meta.level === 'beginner' ? 'beginner' : meta.level === 'intermediate' ? 'intermediate' : 'advanced';
+const levelLabel = meta.level === 'beginner' ? 'Beginner' : meta.level === 'intermediate' ? 'Intermediate' : 'Advanced';
+
+const messages = {
+  input_1rm:        t('input_1rm'),
+  input_bench:      t('input_bench'),
+  input_squat:      t('input_squat'),
+  input_dead:       t('input_dead'),
+  input_press:      t('input_press'),
+  input_equipment:  t('input_equipment'),
+  equip_barbell:    t('equip_barbell'),
+  equip_dumbbell:   t('equip_dumbbell'),
+  equip_machine:    t('equip_machine'),
+  equip_cable:      t('equip_cable'),
+  equip_chinning:   t('equip_chinning'),
+  input_target:     t('input_target'),
+  target_bench:     t('target_bench'),
+  target_squat:     t('target_squat'),
+  target_both:      t('target_both'),
+  generate_btn:     t('generate_btn'),
+  result_day:       t('result_day'),
+  result_focus:     t('result_focus'),
+  result_exercise:  t('result_exercise'),
+  result_sets:      t('result_sets'),
+  result_reps:      t('result_reps'),
+  result_weight:    t('result_weight'),
+  result_notes:     t('result_notes'),
+  no_weight:        t('no_weight'),
+  nutrition:        t('nutrition'),
+  recovery:         t('recovery'),
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: meta.nameEn,
+  description: meta.descEn,
+  step: [{ '@type': 'HowToStep', text: 'Enter your 1RM to generate the full program' }],
+};
+
+const categoryLabel = meta.category === 'beginner' ? 'Beginner' : meta.category === 'strength' ? 'Strength' : 'Hypertrophy';
+---
+
+<BaseLayout locale={locale} title={meta.seoTitleEn} description={meta.seoDescEn} jsonLd={jsonLd}>
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={localePath(locale, '/')}>GymReco</a>
+      <span class="sep">/</span>
+      <a href={localePath(locale, '/#programs')}>Programs</a>
+      <span class="sep">/</span>
+      <a href={localePath(locale, '/#programs')}>{categoryLabel}</a>
+      <span class="sep">/</span>
+      <span>{meta.nameEn}</span>
+    </nav>
+
+    <header class="prog-header">
+      <div class="badges">
+        <span class={`badge badge--${levelBadge}`}>{levelLabel}</span>
+        <span class="badge badge--days">{meta.daysPerWeek} days/week</span>
+        {meta.durationWeeks && <span class="badge badge--days">{meta.durationWeeks} weeks</span>}
+      </div>
+      <h1>{meta.nameEn} <span class="accent">Calculator</span></h1>
+      <p class="lead">{meta.seoDescEn}</p>
+      <div class="quickstats">
+        <div class="qs"><span class="k">Frequency</span><span class="v num">{meta.daysPerWeek}<small> /wk</small></span></div>
+        {meta.durationWeeks && <div class="qs"><span class="k">Duration</span><span class="v num">{meta.durationWeeks}<small> wk</small></span></div>}
+        {meta.intensityRange && <div class="qs"><span class="k">Intensity</span><span class="v num">{meta.intensityRange}</span></div>}
+      </div>
+    </header>
+
+    <ProgramGenerator
+      client:visible
+      slug={meta.slug}
+      locale={locale}
+      isSmolov={meta.slug === 'smolov-jr'}
+      messages={messages}
+    />
+
+  </div>
+</BaseLayout>
+
+<style>
+.container { padding-bottom: 96px; }
+</style>

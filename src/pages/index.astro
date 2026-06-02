@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { programMeta } from '../lib/programs/index';
+import { localePath } from '../i18n';
+import '../styles/home.css';
+
+const locale = 'ja';
+
+const byCategory = {
+  beginner:    programMeta.filter(p => p.category === 'beginner'),
+  strength:    programMeta.filter(p => p.category === 'strength'),
+  hypertrophy: programMeta.filter(p => p.category === 'hypertrophy'),
+};
+const categoryConf = {
+  beginner:    { labelJa: '初級', labelEn: 'Beginner', cssVar: 'var(--cat-beginner)' },
+  strength:    { labelJa: 'ストレングス', labelEn: 'Strength', cssVar: 'var(--cat-strength)' },
+  hypertrophy: { labelJa: 'ハイパートロフィー', labelEn: 'Hypertrophy', cssVar: 'var(--cat-hypertrophy)' },
+};
+
+const levelBadge = (l: string) =>
+  l === 'beginner' ? 'beginner' : l === 'intermediate' ? 'intermediate' : 'advanced';
+const levelLabel = (l: string) =>
+  l === 'beginner' ? '初級' : l === 'intermediate' ? '中級' : '上級';
+
+const features = [
+  { icon: '🧮', title: '1RMから自動計算', desc: '最大挙上重量を入れるだけ。各日の%・セット・レップを自動で重量に変換します。' },
+  { icon: '📉', title: '疲労管理', desc: '強度と量のバランスを自動調整。プログラムに合わせたディロードのタイミングを提案します。' },
+  { icon: '🏋️', title: 'プレート単位に丸め', desc: '2.5kg単位で自動丸め。実際にバーベルに付けられる重量に変換されます。' },
+  { icon: '📚', title: '定番プログラム11種', desc: 'Smolov JrからPPLまで、実績ある11プログラムをいつでも切り替え可能。' },
+  { icon: '📊', title: 'グラフ・PR検出', desc: 'ボリューム・筋力の伸びを自動グラフ化。1RM更新を自動検出してお知らせ。' },
+  { icon: '⏱️', title: 'インターバルタイマー', desc: 'バックグラウンドでも通知されるセット間タイマー。ジムで記録・管理まで完結。' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'GymReco AI',
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+};
+
+const PLAY_STORE = 'https://play.google.com/store/apps/details?id=com.gymreco.ai&hl=ja';
+const APP_STORE  = 'https://apps.apple.com/jp/app/%E3%82%B8%E3%83%A0%E3%83%AC%E3%82%B3ai-%E7%AD%8B%E3%83%88%E3%83%AC%E8%A8%98%E9%8C%B2-%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E4%BD%9C%E6%88%90/id6764790714';
+---
+
+<BaseLayout locale={locale} jsonLd={jsonLd}>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__glow"></div>
+      <svg class="hero__chart" viewBox="0 0 1200 600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4DD0E1" stop-opacity="0.16"/>
+            <stop offset="100%" stop-color="#4DD0E1" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="area" d="M0,470 L120,455 L260,460 L400,415 L540,425 L690,360 L840,375 L980,300 L1120,250 L1200,235 L1200,600 L0,600 Z"/>
+        <path class="line" d="M0,470 L120,455 L260,460 L400,415 L540,425 L690,360 L840,375 L980,300 L1120,250 L1200,235"/>
+      </svg>
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="label">対応プログラム</span>
+          <div class="prog-pills">
+            <span>Smolov Jr</span><span>5/3/1</span><span>PPL</span><span>nSuns</span><span>GZCL</span><span>PHUL</span>
+          </div>
+        </div>
+        <h1>筋力プログラム<span class="accent">計算機</span>
+          <span class="sub-en">Strength Program Calculator</span>
+        </h1>
+        <p class="hero__lead">1RMを入力するだけ。定番の筋力プログラムを、あなたの重量・セット・レップに自動換算します。電卓もスプレッドシートも不要。</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="#programs">プログラムを選ぶ <span class="arrow">→</span></a>
+          <a class="btn btn--ghost btn--lg" href={localePath(locale, '/programs/smolov-jr')}>Smolov Jr を試す</a>
+        </div>
+        <div class="hero__trust">
+          <span><b>11</b> プログラム</span>
+          <span class="dot"></span>
+          <span>登録不要</span>
+          <span class="dot"></span>
+          <span><b>kg</b> 対応</span>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="phone">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <img src="/screenshots/ai_menu_preview_eng.png" alt="GymReco AI アプリ画面" />
+          </div>
+        </div>
+        <div class="readout readout--top">
+          <div class="readout__label">推定1RM</div>
+          <div class="readout__value"><span class="num" data-count="140">0</span><span class="unit">kg</span></div>
+        </div>
+        <div class="readout">
+          <div class="readout__label">Day 4 · 作業重量</div>
+          <div class="readout__value"><span class="num" data-count="119">0</span><span class="unit">kg × 3</span></div>
+          <div class="readout__bar"><i data-bar="85"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM GRID -->
+  <section class="programs-section section" id="programs">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">プログラム一覧</span>
+        <h2>目的とレベルから選ぶ</h2>
+        <p>初級の全身ルーティンから、上級の高頻度ストレングスまで。カードを選んで1RMを入力すれば、すぐに計算されたプランが手に入ります。</p>
+      </div>
+
+      {Object.entries(byCategory).map(([cat, programs]) => {
+        const conf = categoryConf[cat as keyof typeof categoryConf];
+        return (
+          <div class="cat-block" style={`--c: ${conf.cssVar};`}>
+            <div class="cat-head">
+              <span class="tag">{conf.labelJa}</span>
+              <span class="rule"></span>
+              <span class="count">{String(programs.length).padStart(2, '0')}</span>
+            </div>
+            <div class="prog-grid">
+              {programs.map(meta => (
+                <a href={localePath(locale, `/programs/${meta.slug}`)} class="prog-card" style={`--c: ${conf.cssVar};`}>
+                  <div class="prog-card__top">
+                    <div>
+                      <h3>{meta.nameJa}</h3>
+                      <div class="romaji">{meta.slug}</div>
+                    </div>
+                    <span class={`badge badge--${levelBadge(meta.level)}`}>{levelLabel(meta.level)}</span>
+                  </div>
+                  <p>{meta.descJa}</p>
+                  <div class="prog-card__meta">
+                    <div class="stat"><span class="k">頻度</span><span class="v">{meta.daysPerWeek}<small>/wk</small></span></div>
+                    {meta.durationWeeks && <div class="stat"><span class="k">期間</span><span class="v">{meta.durationWeeks}<small>wk</small></span></div>}
+                    {meta.intensityRange && <div class="stat"><span class="k">強度</span><span class="v" style="font-size:12px;">{meta.intensityRange}</span></div>}
+                  </div>
+                  <span class="prog-card__link">計算する <span class="arrow">→</span></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section section section--tight" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">特長</span>
+        <h2>計算は任せて、トレに集中</h2>
+      </div>
+      <div class="features-grid">
+        {features.map(f => (
+          <div class="feature">
+            <div class="feature__icon">{f.icon}</div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL CTA -->
+  <section class="section section--tight" id="install">
+    <div class="container">
+      <div class="install">
+        <div class="install__copy">
+          <span class="eyebrow">アプリで続ける</span>
+          <h2>計算したプランを、ジムでそのまま記録。</h2>
+          <p>GymReco アプリなら、生成したプログラムを持ち歩いてセットごとにチェック。重量の自動更新、休憩タイマー、進捗グラフまで。</p>
+          <div class="store-badges">
+            <a href={PLAY_STORE} aria-label="Google Play" target="_blank" rel="noopener">
+              <img src="/badges/google-play.png" alt="Get it on Google Play" />
+            </a>
+            <a href={APP_STORE} aria-label="App Store" target="_blank" rel="noopener">
+              <img src="/badges/app-store.svg" alt="Download on the App Store" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function run() {
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      var target = +el.getAttribute("data-count");
+      if (reduce) { el.textContent = target; return; }
+      var start = performance.now(), dur = 1200;
+      function tick(now) {
+        var p = Math.min((now - start) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * e);
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+    setTimeout(function () {
+      document.querySelectorAll("[data-bar]").forEach(function (el) {
+        el.style.width = el.getAttribute("data-bar") + "%";
+      });
+    }, 250);
+  }
+  if (document.readyState !== "loading") run(); else document.addEventListener("DOMContentLoaded", run);
+})();
+</script>

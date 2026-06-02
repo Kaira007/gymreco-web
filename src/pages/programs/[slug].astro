@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ProgramGenerator } from '../../components/ProgramGenerator';
+import { programMeta } from '../../lib/programs/index';
+import { useTranslations, localePath } from '../../i18n';
+import '../../styles/generator.css';
+
+export function getStaticPaths() {
+  return programMeta.map(meta => ({ params: { slug: meta.slug }, props: { meta } }));
+}
+
+const { meta } = Astro.props;
+const locale = 'ja';
+const t = useTranslations(locale);
+
+const levelBadge = meta.level === 'beginner' ? 'beginner' : meta.level === 'intermediate' ? 'intermediate' : 'advanced';
+const levelLabel = meta.level === 'beginner' ? '初級' : meta.level === 'intermediate' ? '中級' : '上級';
+
+const messages = {
+  input_1rm:        t('input_1rm'),
+  input_bench:      t('input_bench'),
+  input_squat:      t('input_squat'),
+  input_dead:       t('input_dead'),
+  input_press:      t('input_press'),
+  input_equipment:  t('input_equipment'),
+  equip_barbell:    t('equip_barbell'),
+  equip_dumbbell:   t('equip_dumbbell'),
+  equip_machine:    t('equip_machine'),
+  equip_cable:      t('equip_cable'),
+  equip_chinning:   t('equip_chinning'),
+  input_target:     t('input_target'),
+  target_bench:     t('target_bench'),
+  target_squat:     t('target_squat'),
+  target_both:      t('target_both'),
+  generate_btn:     t('generate_btn'),
+  result_day:       t('result_day'),
+  result_focus:     t('result_focus'),
+  result_exercise:  t('result_exercise'),
+  result_sets:      t('result_sets'),
+  result_reps:      t('result_reps'),
+  result_weight:    t('result_weight'),
+  result_notes:     t('result_notes'),
+  no_weight:        t('no_weight'),
+  nutrition:        t('nutrition'),
+  recovery:         t('recovery'),
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: meta.nameJa,
+  description: meta.descJa,
+  step: [{ '@type': 'HowToStep', text: '1RMを入力してプログラムを生成' }],
+};
+
+const categoryLabel = meta.category === 'beginner' ? '初級' : meta.category === 'strength' ? 'ストレングス' : 'ハイパートロフィー';
+---
+
+<BaseLayout locale={locale} title={meta.seoTitleJa} description={meta.seoDescJa} jsonLd={jsonLd}>
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={localePath(locale, '/')}>GymReco</a>
+      <span class="sep">/</span>
+      <a href={localePath(locale, '/#programs')}>プログラム</a>
+      <span class="sep">/</span>
+      <a href={localePath(locale, '/#programs')}>{categoryLabel}</a>
+      <span class="sep">/</span>
+      <span>{meta.nameJa}</span>
+    </nav>
+
+    <header class="prog-header">
+      <div class="badges">
+        <span class={`badge badge--${levelBadge}`}>{levelLabel}</span>
+        <span class="badge badge--days">{meta.daysPerWeek} 日/週</span>
+        {meta.durationWeeks && <span class="badge badge--days">{meta.durationWeeks} 週間</span>}
+      </div>
+      <h1>{meta.nameJa} <span class="accent">計算機</span></h1>
+      <p class="lead">{meta.seoDescJa}</p>
+      <div class="quickstats">
+        <div class="qs"><span class="k">頻度</span><span class="v num">{meta.daysPerWeek}<small> /wk</small></span></div>
+        {meta.durationWeeks && <div class="qs"><span class="k">期間</span><span class="v num">{meta.durationWeeks}<small> wk</small></span></div>}
+        {meta.intensityRange && <div class="qs"><span class="k">強度域</span><span class="v num">{meta.intensityRange}</span></div>}
+      </div>
+    </header>
+
+    <ProgramGenerator
+      client:visible
+      slug={meta.slug}
+      locale={locale}
+      isSmolov={meta.slug === 'smolov-jr'}
+      messages={messages}
+    />
+
+  </div>
+</BaseLayout>
+
+<style>
+.container { padding-bottom: 96px; }
+</style>

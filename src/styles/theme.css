@@ -1,0 +1,155 @@
+/* =========================================================================
+   GymReco — design tokens + base reset
+   ========================================================================= */
+:root {
+  /* Surfaces */
+  --bg:        #0D1117;
+  --surface:   #161B22;
+  --surface-2: #21262D;
+  --border:    #30363D;
+  --border-2:  #3d444d;
+
+  /* Text */
+  --text:       #E6EDF3;
+  --text-muted: #8B949E;
+  --text-dim:   #6E7681;
+
+  /* Brand */
+  --primary:      #4DD0E1;
+  --primary-dark: #26C6DA;
+  --success:      #3FB950;
+  --warning:      #D29922;
+  --violet:       #A371F7;
+
+  /* Category aliases */
+  --cat-beginner:    var(--success);
+  --cat-strength:    var(--primary);
+  --cat-hypertrophy: var(--violet);
+
+  /* Typography */
+  --font-sans: "Noto Sans JP", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Radii */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+
+  /* Layout */
+  --maxw:   1200px;
+  --gutter: 24px;
+
+  /* Legacy aliases (for any remaining references) */
+  --color-primary:    var(--primary);
+  --color-bg:         var(--bg);
+  --color-surface:    var(--surface);
+  --color-surface2:   var(--surface-2);
+  --color-border:     var(--border);
+  --color-text:       var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-success:    var(--success);
+  --color-warning:    var(--warning);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --shadow-card: 0 4px 24px rgba(0,0,0,.4);
+  --font-sans-old: var(--font-sans);
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+img, svg { display: block; max-width: 100%; }
+ul { list-style: none; }
+
+/* ---- Japanese text wrapping ---- */
+:lang(ja) p, :lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) li, :lang(ja) span {
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+
+/* ---- Mono utility ---- */
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+/* ---- Layout ---- */
+.container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: 96px; position: relative; }
+.section--tight { padding-block: 64px; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 500;
+}
+.section-head { max-width: 640px; margin-bottom: 48px; }
+.section-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; margin-top: 12px; }
+.section-head p { color: var(--text-muted); margin-top: 14px; font-size: 16px; }
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-weight: 600; font-size: 15px; letter-spacing: .01em;
+  padding: 13px 22px; border-radius: var(--r-sm); border: 1px solid transparent;
+  transition: transform .12s ease, box-shadow .2s ease, background .2s ease, border-color .2s;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary {
+  background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color: #062229;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 10px 26px -10px rgba(77,208,225,.7);
+}
+.btn--primary:hover { box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 14px 34px -10px rgba(77,208,225,.85); text-decoration: none; }
+.btn--ghost { background: var(--surface); color: var(--text); border-color: var(--border-2); }
+.btn--ghost:hover { background: var(--surface-2); border-color: var(--text-dim); text-decoration: none; }
+.btn--outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+.btn--outline:hover { background: color-mix(in oklab, var(--primary) 8%, transparent); text-decoration: none; }
+.btn--block { width: 100%; }
+.btn--lg { padding: 16px 28px; font-size: 16px; }
+.btn--sm { padding: 7px 16px; font-size: 13px; }
+.btn .arrow { transition: transform .15s; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ---- Badges ---- */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.badge--beginner     { color: var(--success); background: color-mix(in oklab, var(--success) 12%, transparent); }
+.badge--intermediate { color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, transparent); }
+.badge--advanced     { color: var(--warning); background: color-mix(in oklab, var(--warning) 12%, transparent); }
+.badge--days { color: var(--text-muted); border-color: var(--border-2); background: var(--surface-2); text-transform: none; }
+.badge--days::before { display: none; }
+
+/* ---- Footer ---- */
+.footer { border-top: 1px solid var(--border); padding-block: 48px; color: var(--text-muted); }
+.footer__inner { display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start; }
+.footer__cols { display: flex; gap: 64px; flex-wrap: wrap; }
+.footer__col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-dim); margin-bottom: 14px; font-family: var(--font-mono); }
+.footer__col a { display: block; font-size: 14px; padding: 4px 0; transition: color .15s; }
+.footer__col a:hover { color: var(--text); }
+.footer__legal { font-size: 13px; color: var(--text-dim); margin-top: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}

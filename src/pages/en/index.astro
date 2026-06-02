@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { programMeta } from '../../lib/programs/index';
+import { localePath } from '../../i18n';
+import '../../styles/home.css';
+
+const locale = 'en';
+
+const byCategory = {
+  beginner:    programMeta.filter(p => p.category === 'beginner'),
+  strength:    programMeta.filter(p => p.category === 'strength'),
+  hypertrophy: programMeta.filter(p => p.category === 'hypertrophy'),
+};
+const categoryConf = {
+  beginner:    { label: 'Beginner',    cssVar: 'var(--cat-beginner)' },
+  strength:    { label: 'Strength',    cssVar: 'var(--cat-strength)' },
+  hypertrophy: { label: 'Hypertrophy', cssVar: 'var(--cat-hypertrophy)' },
+};
+
+const levelBadge = (l: string) =>
+  l === 'beginner' ? 'beginner' : l === 'intermediate' ? 'intermediate' : 'advanced';
+const levelLabel = (l: string) =>
+  l === 'beginner' ? 'Beginner' : l === 'intermediate' ? 'Intermediate' : 'Advanced';
+
+const features = [
+  { icon: '🧮', title: 'Auto-calc from 1RM', desc: 'Enter one number. Every percentage, set and rep becomes a real working weight.' },
+  { icon: '📉', title: 'Fatigue management', desc: 'Intensity and volume balanced for you, with peak and deload timing built in.' },
+  { icon: '🏋️', title: 'Plate rounding', desc: 'Loads snap to 2.5 kg increments — exactly what you can put on the bar.' },
+  { icon: '📚', title: '11 proven programs', desc: 'From Smolov Jr to PPL — eleven proven templates, ready whenever you are.' },
+  { icon: '📊', title: 'Charts & PR detection', desc: 'Volume trends and strength progress graphed automatically. PRs flagged instantly.' },
+  { icon: '⏱️', title: 'Interval timer', desc: 'Rest timer with background notifications. Log sets and track progress in the app.' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'GymReco AI',
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+
+const PLAY_STORE = 'https://play.google.com/store/apps/details?id=com.gymreco.ai&hl=en';
+const APP_STORE  = 'https://apps.apple.com/us/app/gymreco-ai/id6764790714';
+---
+
+<BaseLayout locale={locale} jsonLd={jsonLd}>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__glow"></div>
+      <svg class="hero__chart" viewBox="0 0 1200 600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4DD0E1" stop-opacity="0.16"/>
+            <stop offset="100%" stop-color="#4DD0E1" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="area" d="M0,470 L120,455 L260,460 L400,415 L540,425 L690,360 L840,375 L980,300 L1120,250 L1200,235 L1200,600 L0,600 Z"/>
+        <path class="line" d="M0,470 L120,455 L260,460 L400,415 L540,425 L690,360 L840,375 L980,300 L1120,250 L1200,235"/>
+      </svg>
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="label">Programs included</span>
+          <div class="prog-pills">
+            <span>Smolov Jr</span><span>5/3/1</span><span>PPL</span><span>nSuns</span><span>GZCL</span><span>PHUL</span>
+          </div>
+        </div>
+        <h1>Strength Program <span class="accent">Calculator</span>
+          <span class="sub-en">筋力プログラム計算機</span>
+        </h1>
+        <p class="hero__lead">Enter your one-rep max — we calculate every set, rep and load for the classic strength programs. No spreadsheets, no math.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="#programs">Browse Programs <span class="arrow">→</span></a>
+          <a class="btn btn--ghost btn--lg" href={localePath(locale, '/programs/smolov-jr')}>Try Smolov Jr</a>
+        </div>
+        <div class="hero__trust">
+          <span><b>11</b> programs</span>
+          <span class="dot"></span>
+          <span>No sign-up</span>
+          <span class="dot"></span>
+          <span><b>kg</b> units</span>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="phone">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <img src="/screenshots/ai_menu_preview_eng.png" alt="GymReco AI app screenshot" />
+          </div>
+        </div>
+        <div class="readout readout--top">
+          <div class="readout__label">Est. 1RM</div>
+          <div class="readout__value"><span class="num" data-count="140">0</span><span class="unit">kg</span></div>
+        </div>
+        <div class="readout">
+          <div class="readout__label">Day 4 · working set</div>
+          <div class="readout__value"><span class="num" data-count="119">0</span><span class="unit">kg × 3</span></div>
+          <div class="readout__bar"><i data-bar="85"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM GRID -->
+  <section class="programs-section section" id="programs">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Program library</span>
+        <h2>Pick by goal and level</h2>
+        <p>From beginner full-body routines to advanced high-frequency strength blocks. Pick a card, enter your max, get a calculated plan.</p>
+      </div>
+
+      {Object.entries(byCategory).map(([cat, programs]) => {
+        const conf = categoryConf[cat as keyof typeof categoryConf];
+        return (
+          <div class="cat-block" style={`--c: ${conf.cssVar};`}>
+            <div class="cat-head">
+              <span class="tag">{conf.label}</span>
+              <span class="rule"></span>
+              <span class="count">{String(programs.length).padStart(2, '0')}</span>
+            </div>
+            <div class="prog-grid">
+              {programs.map(meta => (
+                <a href={localePath(locale, `/programs/${meta.slug}`)} class="prog-card" style={`--c: ${conf.cssVar};`}>
+                  <div class="prog-card__top">
+                    <div>
+                      <h3>{meta.nameEn}</h3>
+                      <div class="romaji">{meta.slug}</div>
+                    </div>
+                    <span class={`badge badge--${levelBadge(meta.level)}`}>{levelLabel(meta.level)}</span>
+                  </div>
+                  <p>{meta.descEn}</p>
+                  <div class="prog-card__meta">
+                    <div class="stat"><span class="k">Days</span><span class="v">{meta.daysPerWeek}<small>/wk</small></span></div>
+                    {meta.durationWeeks && <div class="stat"><span class="k">Block</span><span class="v">{meta.durationWeeks}<small>wk</small></span></div>}
+                    {meta.intensityRange && <div class="stat"><span class="k">Intensity</span><span class="v" style="font-size:12px;">{meta.intensityRange}</span></div>}
+                  </div>
+                  <span class="prog-card__link">Generate <span class="arrow">→</span></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section section section--tight" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why it works</span>
+        <h2>Skip the math, lift more</h2>
+      </div>
+      <div class="features-grid">
+        {features.map(f => (
+          <div class="feature">
+            <div class="feature__icon">{f.icon}</div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL CTA -->
+  <section class="section section--tight" id="install">
+    <div class="container">
+      <div class="install">
+        <div class="install__copy">
+          <span class="eyebrow">Take it to the gym</span>
+          <h2>Log the plan you just built — rep by rep.</h2>
+          <p>The GymReco app carries your generated program into every session — auto-progressing loads, rest timers and progress charts included.</p>
+          <div class="store-badges">
+            <a href={PLAY_STORE} aria-label="Google Play" target="_blank" rel="noopener">
+              <img src="/badges/google-play.png" alt="Get it on Google Play" />
+            </a>
+            <a href={APP_STORE} aria-label="App Store" target="_blank" rel="noopener">
+              <img src="/badges/app-store.svg" alt="Download on the App Store" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function run() {
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      var target = +el.getAttribute("data-count");
+      if (reduce) { el.textContent = target; return; }
+      var start = performance.now(), dur = 1200;
+      function tick(now) {
+        var p = Math.min((now - start) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * e);
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+    setTimeout(function () {
+      document.querySelectorAll("[data-bar]").forEach(function (el) {
+        el.style.width = el.getAttribute("data-bar") + "%";
+      });
+    }, 250);
+  }
+  if (document.readyState !== "loading") run(); else document.addEventListener("DOMContentLoaded", run);
+})();
+</script>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="161" height="48" viewBox="0 0 161 48">
+  <rect width="161" height="48" rx="8" fill="#000"/>
+  <!-- Google Play colorful icon -->
+  <g transform="translate(12, 10)">
+    <!-- Triangle 1: green (bottom-left) -->
+    <path d="M2 27.5 L2 0.5 L15 13.5 Z" fill="#00C853"/>
+    <!-- Triangle 2: blue (top) -->
+    <path d="M2 0.5 L19 10 L15 13.5 Z" fill="#448AFF"/>
+    <!-- Triangle 3: red (top) -->
+    <path d="M15 13.5 L19 10 L26 14 L22 17 Z" fill="#FF1744"/>
+    <!-- Triangle 4: yellow (bottom) -->
+    <path d="M2 27.5 L15 13.5 L22 17 L19 18 Z" fill="#FFD600"/>
+  </g>
+  <!-- Text -->
+  <text x="46" y="19" font-family="'Roboto',Arial,sans-serif" font-size="9" fill="#CCCCCC" letter-spacing="0.5">GET IT ON</text>
+  <text x="46" y="34" font-family="'Roboto',Arial,sans-serif" font-size="16" font-weight="500" fill="#FFFFFF">Google Play</text>
+</svg>
