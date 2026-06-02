@@ -20,7 +20,8 @@ export function getLocaleFromUrl(url: URL): Locale {
 }
 
 export function localePath(locale: Locale, path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const clean = path.startsWith('/') ? path : `/${path}`;
-  if (locale === 'ja') return clean;
-  return `/en${clean}`;
+  if (locale === 'ja') return `${base}${clean}`;
+  return `${base}/en${clean}`;
 }
