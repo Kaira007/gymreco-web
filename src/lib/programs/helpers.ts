@@ -72,7 +72,7 @@ export function makeName(locale: Locale) {
 
 // ── Weight helpers ─────────────────────────────────────────────
 export function roundToPlate(w: number): number {
-  return Math.round(w / 2.5) * 2.5;
+  return Math.floor(w / 2.5) * 2.5;
 }
 
 /**
