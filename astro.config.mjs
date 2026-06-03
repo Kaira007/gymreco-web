@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://kaira007.github.io',
-  base: '/gymreco-web',
+  base: '/gymreco-web/',
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],
