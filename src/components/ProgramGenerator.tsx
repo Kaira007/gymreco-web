@@ -257,10 +257,10 @@ function PostGenerateCTA({ locale }: { locale: Locale }) {
       <div class="post-cta__inner">
         <div class="post-cta__copy">
           <span class="kick">{isJa ? 'プラン生成完了' : 'Plan ready'}</span>
-          <h2>{isJa ? 'アプリで、同じプログラムをジムで実践しよう。' : 'Train with the same program — tracked in the app.'}</h2>
+          <h2>{isJa ? '計算も、記録も、アプリひとつで。' : 'Everything in one app.'}</h2>
           <p>{isJa
-            ? 'GymReco アプリには同じプログラムが内蔵されています。1RMを設定するだけで、毎セッションの重量が自動計算。休憩タイマーや進捗グラフも完備。'
-            : 'GymReco has the same programs built in. Enter your 1RM once and the app handles weights, rest timers, and progress tracking every session.'
+            ? '重量計算・セット記録・休憩タイマー・進捗グラフ。ジムレコAI なら、トレーニングに必要なものがスマホ一台にまとまっています。'
+            : 'Weight calculation, set logging, rest timer, progress graphs. GymReco AI keeps everything you need for training in one app.'
           }</p>
           <div class="store-badges">
             <a href={isJa ? PLAY_STORE_JA : PLAY_STORE_EN} target="_blank" rel="noopener" aria-label="Google Play">
