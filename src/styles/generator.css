@@ -214,7 +214,7 @@
 .post-cta__copy .kick::before { content: "✓"; width: 18px; height: 18px; border-radius: 50%; background: var(--success); color: #052b12; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
 .post-cta__copy h2 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
 .post-cta__copy p { color: var(--text-muted); margin-top: 12px; font-size: 15px; max-width: 40em; }
-.post-cta__copy .store-badges { margin-top: 22px; }
+.post-cta__copy .store-badges { margin-top: 22px; display: flex; flex-direction: row; gap: 10px; flex-wrap: wrap; align-items: center; }
 
 /* =========================================================================
    RESPONSIVE
