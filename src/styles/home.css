@@ -195,7 +195,6 @@
 /* ---- Responsive ---- */
 @media (max-width: 1000px) {
   .hero__inner { grid-template-columns: 1fr; gap: 40px; }
-  .hero__visual { order: -1; }
   .prog-grid { grid-template-columns: repeat(2, 1fr); }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
