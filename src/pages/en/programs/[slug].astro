@@ -45,15 +45,63 @@ const messages = {
   recovery:         t('recovery'),
 };
 
-const jsonLd = {
+const siteUrl = 'https://gymreco.app';
+const categoryLabel = meta.category === 'beginner' ? 'Beginner' : meta.category === 'strength' ? 'Strength' : 'Hypertrophy';
+
+const breadcrumbSchema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: meta.nameEn,
-  description: meta.descEn,
-  step: [{ '@type': 'HowToStep', text: 'Enter your 1RM to generate the full program' }],
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'GymReco', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Programs', item: `${siteUrl}/en/#programs` },
+    { '@type': 'ListItem', position: 3, name: categoryLabel, item: `${siteUrl}/en/#programs` },
+    { '@type': 'ListItem', position: 4, name: meta.nameEn, item: `${siteUrl}/en/programs/${meta.slug}` },
+  ],
 };
 
-const categoryLabel = meta.category === 'beginner' ? 'Beginner' : meta.category === 'strength' ? 'Strength' : 'Hypertrophy';
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: `How to use the ${meta.nameEn} Calculator`,
+  description: meta.descEn,
+  totalTime: 'PT2M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your 1RM',
+      text: 'Enter your one-rep max in kilograms for the required lifts in the input fields.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Generate the program',
+      text: 'Click "Generate Program" — every session\'s weights, sets, and reps are calculated instantly from your 1RM.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Take your plan to the gym',
+      text: 'Follow the generated plan in your training session, or import it into the GymReco app to log sets as you go.',
+    },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: meta.faq.map(item => ({
+    '@type': 'Question',
+    name: item.questionEn,
+    acceptedAnswer: { '@type': 'Answer', text: item.answerEn },
+  })),
+};
+
+const jsonLd = [howToSchema, breadcrumbSchema, faqSchema];
+
+const relatedPrograms = meta.relatedSlugs
+  .map(s => programMeta.find(p => p.slug === s))
+  .filter(Boolean);
 ---
 
 <BaseLayout locale={locale} title={meta.seoTitleEn} description={meta.seoDescEn} jsonLd={jsonLd}>
@@ -91,6 +139,38 @@ const categoryLabel = meta.category === 'beginner' ? 'Beginner' : meta.category 
       isSmolov={meta.slug === 'smolov-jr'}
       messages={messages}
     />
+
+    <section class="prog-section">
+      <h2 class="prog-section__title">Who is this for?</h2>
+      <p class="prog-section__body">{meta.targetAudienceEn}</p>
+    </section>
+
+    <section class="prog-section prog-faq">
+      <h2 class="prog-section__title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        {meta.faq.map(item => (
+          <details class="faq-item" name="faq-group">
+            <summary class="faq-question">{item.questionEn}</summary>
+            <div class="faq-answer"><p>{item.answerEn}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {relatedPrograms.length > 0 && (
+      <section class="prog-section prog-related">
+        <h2 class="prog-section__title">Related Programs</h2>
+        <div class="related-grid">
+          {relatedPrograms.map(r => (
+            <a href={localePath(locale, `/programs/${r.slug}`)} class="related-card">
+              <span class="related-card__name">{r.nameEn}</span>
+              <span class="related-card__desc">{r.descEn}</span>
+              <span class="related-card__arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
   </div>
 </BaseLayout>

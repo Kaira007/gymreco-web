@@ -33,6 +33,13 @@ export interface GeneratorInput {
   accessoryChoices?: Record<string, string>;
 }
 
+export interface FaqItem {
+  questionJa: string;
+  answerJa: string;
+  questionEn: string;
+  answerEn: string;
+}
+
 export interface ProgramMeta {
   slug: string;
   nameJa: string;
@@ -50,4 +57,11 @@ export interface ProgramMeta {
   category: 'beginner' | 'strength' | 'hypertrophy';
   durationWeeks?: number;
   intensityRange?: string;
+  /** 関連プログラムのスラッグ（内部リンク用） */
+  relatedSlugs: string[];
+  /** FAQPage スキーマ + HTML アコーディオン用 */
+  faq: FaqItem[];
+  /** このプログラムに向いている人（コンテンツ SEO 用） */
+  targetAudienceJa: string;
+  targetAudienceEn: string;
 }

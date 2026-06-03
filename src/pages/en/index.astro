@@ -31,7 +31,7 @@ const features = [
   { icon: '⏱️', title: 'Interval timer', desc: 'Rest timer with background notifications. Log sets and track progress in the app.' },
 ];
 
-const jsonLd = {
+const softwareAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'GymReco AI',
@@ -39,6 +39,35 @@ const jsonLd = {
   applicationCategory: 'HealthApplication',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 };
+
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GymReco',
+  url: 'https://gymreco.app/',
+  inLanguage: 'en-US',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: 'https://gymreco.app/programs/{search_term_string}' },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Strength Training Program Library',
+  numberOfItems: programMeta.length,
+  itemListElement: programMeta.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.nameEn,
+    description: p.descEn,
+    url: `https://gymreco.app/en/programs/${p.slug}`,
+  })),
+};
+
+const jsonLd = [softwareAppSchema, webSiteSchema, itemListSchema];
 
 const PLAY_STORE = 'https://play.google.com/store/apps/details?id=com.gymreco.ai&hl=en';
 const APP_STORE  = 'https://apps.apple.com/us/app/gymreco-ai/id6764790714';

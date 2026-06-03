@@ -229,3 +229,88 @@
   .generator-wrap { padding: 22px; }
   .post-cta__inner { padding: 30px 24px; }
 }
+
+/* =========================================================================
+   コンテンツ SEO セクション（向いている人・FAQ・関連プログラム）
+   ========================================================================= */
+.prog-section {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+.prog-section__title {
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+.prog-section__body {
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 56em;
+}
+
+/* FAQ アコーディオン（JS 不要、<details name=> で排他制御） */
+.faq-list { display: flex; flex-direction: column; gap: 2px; }
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md, 10px);
+  overflow: hidden;
+  background: var(--surface);
+  transition: border-color .15s;
+}
+.faq-item[open] { border-color: var(--border-2); }
+.faq-question {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq-question::-webkit-details-marker { display: none; }
+.faq-question::after {
+  content: '+';
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--primary);
+  flex: none;
+  transition: transform .2s;
+}
+.faq-item[open] .faq-question::after { transform: rotate(45deg); }
+.faq-answer {
+  padding: 0 20px 18px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.faq-answer p { margin: 0; }
+
+/* 関連プログラムグリッド */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md, 10px);
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color .15s, background .15s;
+}
+.related-card:hover {
+  border-color: var(--primary);
+  background: color-mix(in oklab, var(--primary) 5%, var(--surface));
+}
+.related-card__name { font-size: 15px; font-weight: 700; color: var(--text); }
+.related-card__desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; flex: 1; }
+.related-card__arrow { font-family: var(--font-mono); color: var(--primary); font-size: 14px; margin-top: 4px; }
