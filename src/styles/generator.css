@@ -220,7 +220,6 @@
    RESPONSIVE
    ========================================================================= */
 @media (max-width: 820px) {
-  .days-grid { grid-template-columns: 1fr; }
   .plan-summary { grid-template-columns: repeat(2, 1fr); }
   .field-row { grid-template-columns: 1fr; }
   .advice-grid { grid-template-columns: 1fr; }
@@ -237,8 +236,13 @@
   .summary-stat .v { font-size: 20px; }
   .week-tabs { gap: 6px; }
   .week-tabs button { padding: 7px 14px; font-size: 12px; }
+  .days-grid { gap: 12px; }
+  .day-card__head { padding: 12px 14px; }
+  .day-card__foot { padding: 10px 14px; }
   .ex-table thead th,
-  .ex-table tbody td { padding: 10px 12px; }
+  .ex-table tbody td { padding: 8px 10px; font-size: 12px; }
+  .ex-table tbody td:first-child { max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ex-table .weight { font-size: 13px; }
   .post-cta__inner { padding: 26px 20px; }
 }
 
