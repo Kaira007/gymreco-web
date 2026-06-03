@@ -43,6 +43,15 @@ const messages = {
   no_weight:        t('no_weight'),
   nutrition:        t('nutrition'),
   recovery:         t('recovery'),
+  unit_label:       t('unit_label'),
+  hint_1rm:         t('hint_1rm'),
+  no_signup:        t('no_signup'),
+  stat_top_weight:  t('stat_top_weight'),
+  stat_total_sets:  t('stat_total_sets'),
+  stat_week_volume: t('stat_week_volume'),
+  stat_days:        t('stat_days'),
+  bw_label:         t('bw_label'),
+  equip_warning:    t('equip_warning'),
 };
 
 const siteUrl = 'https://gymreco.app';
@@ -59,10 +68,21 @@ const breadcrumbSchema = {
   ],
 };
 
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: `${meta.nameJa} 計算ツール`,
+  description: meta.seoDescJa,
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+  url: `${siteUrl}/programs/${meta.slug}`,
+};
+
 const howToSchema = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: `${meta.nameJa}計算機の使い方`,
+  name: `${meta.nameJa}計算ツールの使い方`,
   description: meta.descJa,
   totalTime: 'PT2M',
   step: [
@@ -97,7 +117,7 @@ const faqSchema = {
   })),
 };
 
-const jsonLd = [howToSchema, breadcrumbSchema, faqSchema];
+const jsonLd = [softwareSchema, howToSchema, breadcrumbSchema, faqSchema];
 
 const relatedPrograms = meta.relatedSlugs
   .map(s => programMeta.find(p => p.slug === s))
@@ -123,7 +143,7 @@ const relatedPrograms = meta.relatedSlugs
         <span class="badge badge--days">{meta.daysPerWeek} 日/週</span>
         {meta.durationWeeks && <span class="badge badge--days">{meta.durationWeeks} 週間</span>}
       </div>
-      <h1>{meta.nameJa} <span class="accent">計算機</span></h1>
+      <h1>{meta.nameJa} <span class="accent">計算ツール</span></h1>
       <p class="lead">{meta.seoDescJa}</p>
       <div class="quickstats">
         <div class="qs"><span class="k">頻度</span><span class="v num">{meta.daysPerWeek}<small> /wk</small></span></div>
@@ -141,12 +161,12 @@ const relatedPrograms = meta.relatedSlugs
     />
 
     <section class="prog-section">
-      <h2 class="prog-section__title">このプログラムに向いている人</h2>
+      <h2 class="prog-section__title">{meta.nameJa}に向いている人</h2>
       <p class="prog-section__body">{meta.targetAudienceJa}</p>
     </section>
 
     <section class="prog-section prog-faq">
-      <h2 class="prog-section__title">よくある質問</h2>
+      <h2 class="prog-section__title">{meta.nameJa}のよくある質問</h2>
       <div class="faq-list">
         {meta.faq.map(item => (
           <details class="faq-item" name="faq-group">
@@ -159,7 +179,7 @@ const relatedPrograms = meta.relatedSlugs
 
     {relatedPrograms.length > 0 && (
       <section class="prog-section prog-related">
-        <h2 class="prog-section__title">関連プログラム</h2>
+        <h2 class="prog-section__title">関連する筋力プログラム</h2>
         <div class="related-grid">
           {relatedPrograms.map(r => (
             <a href={localePath(locale, `/programs/${r.slug}`)} class="related-card">

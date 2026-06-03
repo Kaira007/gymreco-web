@@ -8,6 +8,8 @@ interface Labels {
   day: string; focus: string; exercise: string;
   sets: string; reps: string; weight: string;
   notes: string; nutrition: string; recovery: string;
+  top_weight: string; total_sets: string; week_volume: string;
+  days_label: string; bw_label: string;
 }
 
 interface Props {
@@ -57,7 +59,6 @@ function calcSummary(days: DayPlan[], unit: Unit) {
 }
 
 export function PlanTable({ program, noWeightLabel, labels, locale, unit = 'kg' }: Props) {
-  const isJa = locale === 'ja';
   const groups = groupByWeek(program.weeklyPlan);
   const hasWeeks = groups.length > 1;
   const [activeIdx, setActiveIdx] = useState(0);
@@ -78,8 +79,8 @@ export function PlanTable({ program, noWeightLabel, labels, locale, unit = 'kg' 
           <h2 class="plan-title">{program.title}</h2>
           {topWeightKg > 0 && (
             <div class="meta">
-              {isJa ? 'トップ重量' : 'Top weight'} <b>{topWeight} {unit}</b>
-              {' · '}{isJa ? '総セット' : 'Total sets'} <b>{totalSets}</b>
+              {labels.top_weight} <b>{topWeight} {unit}</b>
+              {' · '}{labels.total_sets} <b>{totalSets}</b>
             </div>
           )}
         </div>
@@ -89,19 +90,19 @@ export function PlanTable({ program, noWeightLabel, labels, locale, unit = 'kg' 
       {topWeightKg > 0 && (
         <div class="plan-summary">
           <div class="summary-stat accent">
-            <div class="k">{isJa ? 'トップ重量' : 'Top weight'}</div>
+            <div class="k">{labels.top_weight}</div>
             <div class="v num">{topWeight}<small> {unit}</small></div>
           </div>
           <div class="summary-stat">
-            <div class="k">{isJa ? '総セット' : 'Total sets'}</div>
+            <div class="k">{labels.total_sets}</div>
             <div class="v num">{totalSets}</div>
           </div>
           <div class="summary-stat">
-            <div class="k">{isJa ? '週間ボリューム' : 'Week volume'}</div>
+            <div class="k">{labels.week_volume}</div>
             <div class="v num">{volDisplay}<small> {volUnit}</small></div>
           </div>
           <div class="summary-stat">
-            <div class="k">{isJa ? '日数' : 'Days'}</div>
+            <div class="k">{labels.days_label}</div>
             <div class="v num">{currentDays.length}</div>
           </div>
         </div>
@@ -203,7 +204,7 @@ function DayCard({ day, index, noWeightLabel, labels, unit }: {
                 {ex.recommendedWeight == null
                   ? <span class="no-weight">{noWeightLabel}</span>
                   : ex.recommendedWeight === 0
-                  ? <span class="bw">{isJa ? '自重' : 'BW'}</span>
+                  ? <span class="bw">{labels.bw_label}</span>
                   : <>{toDisplayWeight(ex.recommendedWeight, unit)}<span class="u"> {unit}</span></>
                 }
               </td>

@@ -17,6 +17,9 @@ type Messages = {
   result_day: string; result_focus: string; result_exercise: string;
   result_sets: string; result_reps: string; result_weight: string; result_notes: string;
   no_weight: string; nutrition: string; recovery: string;
+  unit_label: string; hint_1rm: string; no_signup: string;
+  stat_top_weight: string; stat_total_sets: string; stat_week_volume: string;
+  stat_days: string; bw_label: string; equip_warning: string;
 };
 
 interface Props {
@@ -31,13 +34,6 @@ const PLAY_STORE_EN = 'https://play.google.com/store/apps/details?id=com.gymreco
 const APP_STORE_JA  = 'https://apps.apple.com/jp/app/%E3%82%B8%E3%83%A0%E3%83%AC%E3%82%B3ai-%E7%AD%8B%E3%83%88%E3%83%AC%E8%A8%98%E9%8C%B2-%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E4%BD%9C%E6%88%90/id6764790714';
 const APP_STORE_EN  = 'https://apps.apple.com/us/app/gymreco-ai/id6764790714';
 
-const EQUIPMENT_OPTIONS: { key: Equipment; label: string }[] = [
-  { key: 'barbell',  label: 'バーベル / Barbell' },
-  { key: 'dumbbell', label: 'ダンベル / Dumbbell' },
-  { key: 'machine',  label: 'マシン / Machine' },
-  { key: 'cable',    label: 'ケーブル / Cable' },
-  { key: 'chinning', label: 'チンニング / Chinning' },
-];
 
 const LB_PER_KG = 2.20462;
 
@@ -46,13 +42,19 @@ function lbToKg(lb: number): number {
 }
 
 export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }: Props) {
-  const isJa = locale === 'ja';
+  const equipmentOptions: { key: Equipment; label: string }[] = [
+    { key: 'barbell',  label: m.equip_barbell  },
+    { key: 'dumbbell', label: m.equip_dumbbell },
+    { key: 'machine',  label: m.equip_machine  },
+    { key: 'cable',    label: m.equip_cable    },
+    { key: 'chinning', label: m.equip_chinning },
+  ];
 
   // Unit selection
   const [unit, setUnit] = useState<Unit>('kg');
 
   // Smolov Jr: single 1RM with lift selector
-  const [smolovTarget, setSmolovTarget] = useState<'bench' | 'squat' | 'both'>('bench');
+  const [smolovTarget, setSmolovTarget] = useState<'bench' | 'squat'>('bench');
   const [smolovRM, setSmolovRM]     = useState('100');
 
   // Other programs: multi-field 1RM
@@ -80,13 +82,13 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
 
   function generate() {
     let tw: GeneratorInput['targetWeights'];
-    const target: 'bench' | 'squat' | 'both' = smolovTarget;
+    const target: 'bench' | 'squat' = smolovTarget;
 
     if (isSmolov) {
       const v = parseWeight(smolovRM);
       tw = {
-        bench: (smolovTarget === 'bench' || smolovTarget === 'both') ? v : undefined,
-        squat: (smolovTarget === 'squat' || smolovTarget === 'both') ? v : undefined,
+        bench: smolovTarget === 'bench' ? v : undefined,
+        squat: smolovTarget === 'squat' ? v : undefined,
       };
     } else {
       tw = {
@@ -110,6 +112,8 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
 
   const unitLabel = unit === 'lb' ? 'lb' : 'kg';
   const smolovStep = unit === 'lb' ? 5 : 2.5;
+  const hideEquipment = ['smolov-jr', 'starting-strength', 'stronglifts-5x5', 'texas-method'].includes(slug);
+  const hasAnchorEquip = hideEquipment || equipment.includes('barbell') || equipment.includes('dumbbell');
 
   return (
     <div>
@@ -118,7 +122,7 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
         <div class="generator-form">
           {/* Unit toggle */}
           <div class="unit-toggle" style="display:flex;align-items:center;gap:6px;margin-bottom:14px;">
-            <span style="font-size:13px;color:var(--text-dim);">{isJa ? '単位' : 'Unit'}:</span>
+            <span style="font-size:13px;color:var(--text-dim);">{m.unit_label}:</span>
             <div class="seg" role="group">
               <button
                 type="button"
@@ -135,11 +139,11 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
 
           {isSmolov ? (
             /* Smolov Jr: lift selector + single big 1RM */
-            <div class="field-row">
+            <div class={`field-row${hideEquipment ? ' field-row--single' : ''}`}>
               <div class="field">
                 <label class="field-label">
-                  {smolovTarget === 'squat' ? (isJa ? 'スクワットの1RM' : 'Squat 1RM') : (isJa ? 'ベンチプレスの1RM' : 'Bench Press 1RM')}
-                  <span class="hint">— {isJa ? '最大挙上重量' : 'one-rep max'}</span>
+                  {smolovTarget === 'squat' ? m.input_squat : m.input_bench}
+                  <span class="hint">— {m.hint_1rm}</span>
                 </label>
                 <div class="seg" role="group" style="margin-bottom:10px;">
                   {(['bench', 'squat'] as const).map(lift => (
@@ -149,16 +153,9 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
                       onClick={() => setSmolovTarget(lift)}
                       style={smolovTarget === lift ? 'background:var(--primary);color:#062229;font-weight:700;' : ''}
                     >
-                      {lift === 'bench' ? (isJa ? 'ベンチ' : 'Bench') : (isJa ? 'スクワット' : 'Squat')}
+                      {lift === 'bench' ? m.target_bench : m.target_squat}
                     </button>
                   ))}
-                  <button
-                    type="button"
-                    onClick={() => setSmolovTarget('both')}
-                    style={smolovTarget === 'both' ? 'background:var(--primary);color:#062229;font-weight:700;' : ''}
-                  >
-                    {isJa ? '両方' : 'Both'}
-                  </button>
                 </div>
                 <div class="input-unit">
                   <input
@@ -176,16 +173,18 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
                 </div>
               </div>
 
-              <div class="field">
-                <span class="field-label">{isJa ? '器具' : 'Equipment'}</span>
-                <div class="equip-checkboxes">
-                  {EQUIPMENT_OPTIONS.slice(0, 3).map(({ key, label }) => (
-                    <label key={key} class={`equip-label${equipment.includes(key) ? ' is-active' : ''}`} onClick={() => toggleEquipment(key)}>
-                      <span>{label}</span>
-                    </label>
-                  ))}
+              {!hideEquipment && (
+                <div class="field">
+                  <span class="field-label">{m.input_equipment}</span>
+                  <div class="equip-checkboxes">
+                    {equipmentOptions.slice(0, 3).map(({ key, label }) => (
+                      <button key={key} type="button" class={`equip-label${equipment.includes(key) ? ' is-active' : ''}`} onClick={() => toggleEquipment(key)}>
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ) : (
             /* Other programs: multi 1RM grid */
@@ -207,24 +206,34 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
                   </div>
                 ))}
               </div>
-              <div class="field" style="margin-top:8px;">
-                <span class="field-label">{m.input_equipment}</span>
-                <div class="equip-checkboxes">
-                  {EQUIPMENT_OPTIONS.map(({ key, label }) => (
-                    <label key={key} class={`equip-label${equipment.includes(key) ? ' is-active' : ''}`} onClick={() => toggleEquipment(key)}>
-                      <span>{label}</span>
-                    </label>
-                  ))}
+              {!hideEquipment && (
+                <div class="field" style="margin-top:8px;">
+                  <span class="field-label">{m.input_equipment}</span>
+                  <div class="equip-checkboxes">
+                    {equipmentOptions.map(({ key, label }) => (
+                      <button key={key} type="button" class={`equip-label${equipment.includes(key) ? ' is-active' : ''}`} onClick={() => toggleEquipment(key)}>
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
           <div class="gen-submit">
-            <button class="btn btn--primary btn--lg generate-btn" type="button" onClick={generate}>
+            <button
+              class="btn btn--primary btn--lg generate-btn"
+              type="button"
+              onClick={generate}
+              disabled={!hasAnchorEquip}
+              style={!hasAnchorEquip ? 'opacity:0.4;cursor:not-allowed;' : ''}
+            >
               {m.generate_btn} <span class="arrow">→</span>
             </button>
-            <span class="note">{isJa ? '登録不要・即時計算' : 'No sign-up · instant'}</span>
+            <span class="note" style={!hasAnchorEquip ? 'color:var(--warning,#f5a623);' : ''}>
+              {hasAnchorEquip ? m.no_signup : m.equip_warning}
+            </span>
           </div>
         </div>
       </section>
@@ -241,6 +250,9 @@ export function ProgramGenerator({ slug, locale, isSmolov = false, messages: m }
               day: m.result_day, focus: m.result_focus, exercise: m.result_exercise,
               sets: m.result_sets, reps: m.result_reps, weight: m.result_weight,
               notes: m.result_notes, nutrition: m.nutrition, recovery: m.recovery,
+              top_weight: m.stat_top_weight, total_sets: m.stat_total_sets,
+              week_volume: m.stat_week_volume, days_label: m.stat_days,
+              bw_label: m.bw_label,
             }}
           />
           <PostGenerateCTA locale={locale} />

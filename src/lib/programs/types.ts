@@ -28,7 +28,7 @@ export interface GeneratorInput {
   equipment: Equipment[];
   locale: Locale;
   /** Smolov Jr only */
-  smolovTarget?: 'bench' | 'squat' | 'both';
+  smolovTarget?: 'bench' | 'squat';
   /** Optional accessory slot overrides */
   accessoryChoices?: Record<string, string>;
 }

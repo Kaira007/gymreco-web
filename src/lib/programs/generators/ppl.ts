@@ -87,7 +87,7 @@ export function generatePPL(input: GeneratorInput): GeneratedProgram {
         focus: t('Legs（脚）', 'Legs'),
         exercises: [
           { exerciseName: n(squatJa), recommendedSets: 3, recommendedReps: '8-12', notes: t('中重量・ハイレップ', 'Moderate weight, high reps'), recommendedWeight: calcWeight(tw, squatJa, 0.65) },
-          { exerciseName: n(rdlJa), recommendedSets: 4, recommendedReps: '8-12', notes: t('ハムメイン', 'Hamstring focus'), recommendedWeight: exWeightDefault(tw, rdlJa) },
+          { exerciseName: n(rdlJa), recommendedSets: 4, recommendedReps: '8-12', notes: t('ハムメイン', 'Hamstring focus'), recommendedWeight: calcWeight(tw, rdlJa, 0.60) },
           { exerciseName: n(hasDumbbell ? 'ブルガリアンスクワット' : 'レッグプレス'), recommendedSets: 3, recommendedReps: '10-12', notes: t('片脚ずつ', 'Unilateral'), recommendedWeight: hasDumbbell ? exWeightDefault(tw, 'ブルガリアンスクワット') : calcWeight(tw, 'レッグプレス', 0.65) },
           ...(hasMachine ? [{ exerciseName: n('レッグカール'), recommendedSets: 3, recommendedReps: '10-12', notes: t('ハム単独', 'Hamstring isolation'), recommendedWeight: exWeightDefault(tw, 'レッグカール') }] : []),
           { exerciseName: n(calfJa), recommendedSets: 4, recommendedReps: '15-20', notes: t('カーフ', 'Calves'), recommendedWeight: exWeightDefault(tw, calfJa) },

@@ -1,5 +1,5 @@
 {
-  "site_title": "GymReco AI — 筋力プログラム自動生成",
+  "site_title": "GymReco AI — プログラム計算ツール",
   "site_desc": "1RMを入力するだけでSmolov Jr・Wendler 5/3/1・PPLなど11種のトレーニングプログラムを自動生成。アプリなら毎セッション重量を自動更新・記録まで完結。",
   "nav_programs": "プログラム一覧",
   "nav_app": "アプリを入手",
@@ -44,5 +44,14 @@
   "level_advanced": "上級者",
   "days_per_week": "日/週",
   "footer_copy": "© 2025 GymReco AI. All rights reserved.",
-  "back_to_list": "← プログラム一覧に戻る"
+  "back_to_list": "← プログラム一覧に戻る",
+  "unit_label": "単位",
+  "hint_1rm": "最大挙上重量",
+  "no_signup": "登録不要・即時計算",
+  "stat_top_weight": "トップ重量",
+  "stat_total_sets": "総セット",
+  "stat_week_volume": "週間ボリューム",
+  "stat_days": "日数",
+  "bw_label": "自重",
+  "equip_warning": "バーベルかダンベルを選択してください"
 }

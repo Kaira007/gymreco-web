@@ -2,15 +2,15 @@ import type { GeneratedProgram, GeneratorInput, DayPlan, ExercisePrescription } 
 import { makeT, makeName, calcWeight, addOffset, mainLift } from '../helpers';
 
 export function generateSmolovJr(input: GeneratorInput): GeneratedProgram {
-  const { targetWeights: tw, equipment, locale, smolovTarget = 'both' } = input;
+  const { targetWeights: tw, equipment, locale, smolovTarget = 'bench' } = input;
   const t = makeT(locale);
   const n = makeName(locale);
 
   const benchLift = mainLift(equipment, { barbell: 'ベンチプレス', dumbbell: 'ダンベルプレス', machine: 'チェストプレス' });
   const squatLift = mainLift(equipment, { barbell: 'スクワット', dumbbell: 'ダンベルスクワット', machine: 'レッグプレス' });
 
-  const includeBench = smolovTarget === 'bench' || smolovTarget === 'both';
-  const includeSquat = smolovTarget === 'squat' || smolovTarget === 'both';
+  const includeBench = smolovTarget === 'bench';
+  const includeSquat = smolovTarget === 'squat';
   const focusLift = smolovTarget === 'squat' ? squatLift : benchLift;
 
   const days: DayPlan[] = [];
@@ -97,14 +97,12 @@ export function generateSmolovJr(input: GeneratorInput): GeneratedProgram {
     ],
   });
 
-  const titleMap = {
-    bench: t('Smolov Jr ベンチプレス特化プログラム', 'Smolov Jr Bench Press Specialization Program'),
-    squat: t('Smolov Jr スクワット特化プログラム', 'Smolov Jr Squat Specialization Program'),
-    both: t('Smolov Jr ベンチプレス/スクワット特化プログラム', 'Smolov Jr Bench/Squat Specialization Program'),
-  };
+  const title = smolovTarget === 'squat'
+    ? t('Smolov Jr スクワット特化プログラム', 'Smolov Jr Squat Specialization Program')
+    : t('Smolov Jr ベンチプレス特化プログラム', 'Smolov Jr Bench Press Specialization Program');
 
   return {
-    title: titleMap[smolovTarget],
+    title,
     weeklyPlan: days,
     nutritionAdvice: t(
       '高強度・高頻度プログラムのため、体重×2.2g以上のタンパク質と十分な炭水化物が必須です。トレーニング前後の栄養補給を特に重視してください。クレアチン5g/日の摂取も推奨します。',
