@@ -272,7 +272,7 @@ function PostGenerateCTA({ locale }: { locale: Locale }) {
           <h2>{isJa ? '計算も、記録も、アプリひとつで。' : 'Everything in one app.'}</h2>
           <p>{isJa
             ? '重量計算・セット記録・休憩タイマー・進捗グラフ。ジムレコAI なら、トレーニングに必要なものがスマホ一台にまとまっています。'
-            : 'Weight calculation, set logging, rest timer, progress graphs. GymReco AI keeps everything you need for training in one app.'
+            : 'Weight calculation, set logging, rest timer, progress graphs. GymRec AI keeps everything you need for training in one app.'
           }</p>
           <div class="store-badges">
             <a href={isJa ? PLAY_STORE_JA : PLAY_STORE_EN} target="_blank" rel="noopener" aria-label="Google Play">

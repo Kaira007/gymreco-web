@@ -1,5 +1,5 @@
 {
-  "site_title": "GymReco AI — Program Calculator",
+  "site_title": "GymRec AI — Program Calculator",
   "site_desc": "Enter your 1RM and get the full Smolov Jr, Wendler 5/3/1, PPL, nSuns program — weights, reps and schedule included. Track everything in the app.",
   "nav_programs": "Programs",
   "nav_app": "Get the App",
@@ -43,7 +43,7 @@
   "level_intermediate": "Intermediate",
   "level_advanced": "Advanced",
   "days_per_week": "days/week",
-  "footer_copy": "© 2025 GymReco AI. All rights reserved.",
+  "footer_copy": "© 2025 GymRec AI. All rights reserved.",
   "back_to_list": "← Back to Programs",
   "unit_label": "Unit",
   "hint_1rm": "one-rep max",

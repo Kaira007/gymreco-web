@@ -61,7 +61,7 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'GymReco', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 1, name: 'GymRec', item: `${siteUrl}/` },
     { '@type': 'ListItem', position: 2, name: 'Programs', item: `${siteUrl}/en/#programs` },
     { '@type': 'ListItem', position: 3, name: categoryLabel, item: `${siteUrl}/en/#programs` },
     { '@type': 'ListItem', position: 4, name: meta.nameEn, item: `${siteUrl}/en/programs/${meta.slug}` },
@@ -102,7 +102,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 3,
       name: 'Take your plan to the gym',
-      text: 'Follow the generated plan in your training session, or import it into the GymReco app to log sets as you go.',
+      text: 'Follow the generated plan in your training session, or import it into the GymRec app to log sets as you go.',
     },
   ],
 };
@@ -128,7 +128,7 @@ const relatedPrograms = meta.relatedSlugs
   <div class="container">
 
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href={localePath(locale, '/')}>GymReco</a>
+      <a href={localePath(locale, '/')}>GymRec</a>
       <span class="sep">/</span>
       <a href={localePath(locale, '/#programs')}>Programs</a>
       <span class="sep">/</span>

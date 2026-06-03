@@ -1,5 +1,5 @@
 /* =========================================================================
-   GymReco — design tokens + base reset
+   GymRec — design tokens + base reset
    ========================================================================= */
 :root {
   /* Surfaces */
@@ -149,6 +149,12 @@ ul { list-style: none; }
 .footer__col a { display: block; font-size: 14px; padding: 4px 0; transition: color .15s; }
 .footer__col a:hover { color: var(--text); }
 .footer__legal { font-size: 13px; color: var(--text-dim); margin-top: 32px; }
+
+@media (max-width: 640px) {
+  .section       { padding-block: 56px; }
+  .section--tight { padding-block: 40px; }
+  .section-head  { margin-bottom: 32px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001ms !important; transition-duration: .001ms !important; }

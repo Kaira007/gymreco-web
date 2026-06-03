@@ -1,5 +1,5 @@
 /* =========================================================================
-   GymReco — program detail page + generator island
+   GymRec — program detail page + generator island
    Class names match Preact island output.
    ========================================================================= */
 
@@ -225,9 +225,21 @@
   .field-row { grid-template-columns: 1fr; }
   .advice-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 620px) {
-  .generator-wrap { padding: 22px; }
-  .post-cta__inner { padding: 30px 24px; }
+@media (max-width: 640px) {
+  .breadcrumb { flex-wrap: wrap; row-gap: 2px; }
+  .prog-header h1 { font-size: clamp(26px, 8vw, 44px); }
+  .prog-header .quickstats { gap: 20px; margin-top: 20px; }
+  .generator-wrap { padding: 20px; }
+  .generator-wrap__head { flex-direction: column; gap: 12px; }
+  .gen-step { display: none; }
+  .plan-summary { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .summary-stat { padding: 12px 14px; }
+  .summary-stat .v { font-size: 20px; }
+  .week-tabs { gap: 6px; }
+  .week-tabs button { padding: 7px 14px; font-size: 12px; }
+  .ex-table thead th,
+  .ex-table tbody td { padding: 10px 12px; }
+  .post-cta__inner { padding: 26px 20px; }
 }
 
 /* =========================================================================

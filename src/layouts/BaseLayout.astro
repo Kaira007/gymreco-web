@@ -50,7 +50,7 @@ const ogLocaleAlt = isJa ? 'en_US' : 'ja_JP';
   <meta property="og:image" content={ogImg} />
   <meta property="og:locale" content={ogLocale} />
   <meta property="og:locale:alternate" content={ogLocaleAlt} />
-  <meta property="og:site_name" content="GymReco" />
+  <meta property="og:site_name" content="GymRec" />
   <meta name="theme-color" content="#4DD0E1" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
@@ -71,9 +71,9 @@ const ogLocaleAlt = isJa ? 'en_US' : 'ja_JP';
 
 <header class="nav">
   <div class="container nav__inner">
-    <a class="brand" href={localePath(locale, '/')} aria-label="GymReco">
-      <img class="brand__mark" src={`${import.meta.env.BASE_URL}icon.png`} width="30" height="30" alt="GymReco" />
-      <span class="brand__name">Gym<b>Reco</b></span>
+    <a class="brand" href={localePath(locale, '/')} aria-label="GymRec">
+      <img class="brand__mark" src={`${import.meta.env.BASE_URL}icon.png`} width="30" height="30" alt="GymRec" />
+      <span class="brand__name">Gym<b>Rec</b></span>
     </a>
     <nav class="nav__links">
       <a href={localePath(locale, '/#programs')}>{isJa ? 'プログラム' : 'Programs'}</a>
@@ -85,12 +85,24 @@ const ogLocaleAlt = isJa ? 'en_US' : 'ja_JP';
         <a href={locale === 'ja' ? '#' : altNavLink} class={locale === 'ja' ? 'is-active' : ''}>JP</a>
         <a href={locale === 'en' ? '#' : altNavLink} class={locale === 'en' ? 'is-active' : ''}>EN</a>
       </div>
-      <a class="btn btn--primary btn--sm" href={localePath(locale, '/#install')}>
+      <a class="btn btn--primary btn--sm nav__cta" href={localePath(locale, '/#install')}>
         {isJa ? 'アプリを入手' : 'Get the app'}
       </a>
+      <button class="nav__burger" id="navBurger" aria-label={isJa ? 'メニューを開く' : 'Open menu'} aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="nav__mobile" id="navMobile">
+  <a class="nav__mobile-link" href={localePath(locale, '/#programs')}>{isJa ? 'プログラム' : 'Programs'}</a>
+  <a class="nav__mobile-link" href={localePath(locale, '/#features')}>{isJa ? '特長' : 'Features'}</a>
+  <a class="nav__mobile-link" href={localePath(locale, '/#install')}>{isJa ? 'アプリ' : 'App'}</a>
+  <a class="btn btn--primary btn--block nav__mobile-cta" href={localePath(locale, '/#install')}>
+    {isJa ? 'アプリを入手' : 'Get the app'}
+  </a>
+</div>
 
 <main>
   <slot />
@@ -100,10 +112,10 @@ const ogLocaleAlt = isJa ? 'en_US' : 'ja_JP';
   <div class="container footer__inner">
     <div>
       <a class="brand" href={localePath(locale, '/')}>
-        <img class="brand__mark" src={`${import.meta.env.BASE_URL}icon.png`} width="30" height="30" alt="GymReco" />
-        <span class="brand__name">Gym<b>Reco</b></span>
+        <img class="brand__mark" src={`${import.meta.env.BASE_URL}icon.png`} width="30" height="30" alt="GymRec" />
+        <span class="brand__name">Gym<b>Rec</b></span>
       </a>
-      <p class="footer__legal">© 2026 GymReco. {isJa ? 'プログラム計算ツール' : 'Program Calculator'}.</p>
+      <p class="footer__legal">© 2026 GymRec. {isJa ? 'プログラム計算ツール' : 'Program Calculator'}.</p>
     </div>
     <div class="footer__cols">
       <div class="footer__col">
@@ -164,5 +176,83 @@ const ogLocaleAlt = isJa ? 'en_US' : 'ja_JP';
 .lang-toggle a.is-active { background: var(--surface-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-2); }
 .lang-toggle a:hover:not(.is-active) { color: var(--text); }
 
-@media (max-width: 820px) { .nav__links { display: none; } }
+/* Hamburger */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 7px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex: none;
+}
+.nav__burger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 1px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__burger.is-open span:nth-child(2) { opacity: 0; }
+.nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.nav__mobile {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 49;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 8px var(--gutter, 24px) 32px;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.nav__mobile.is-open { display: flex; }
+.nav__mobile-link {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: color .15s;
+}
+.nav__mobile-link:first-child { border-top: 1px solid var(--border); margin-top: 8px; }
+.nav__mobile-link:hover { color: var(--text); }
+.nav__mobile-cta { margin-top: 24px; justify-content: center; }
+
+@media (max-width: 820px) {
+  .nav__links { display: none; }
+  .nav__burger { display: flex; }
+  .nav__cta { display: none; }
+}
 </style>
+
+<script>
+(function () {
+  var burger = document.getElementById('navBurger');
+  var menu = document.getElementById('navMobile');
+  if (!burger || !menu) return;
+  burger.addEventListener('click', function () {
+    var open = menu.classList.toggle('is-open');
+    burger.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('is-open');
+      burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+})();
+</script>

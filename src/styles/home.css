@@ -1,5 +1,5 @@
 /* =========================================================================
-   GymReco — home page (hero, program grid, features, install CTA)
+   GymRec — home page (hero, program grid, features, install CTA)
    ========================================================================= */
 
 /* ---- Hero ---- */
@@ -152,14 +152,21 @@
 @media (max-width: 1000px) {
   .hero__inner { grid-template-columns: 1fr; gap: 40px; }
   .hero__visual { order: -1; }
+  .readout { display: none; }
   .prog-grid { grid-template-columns: repeat(2, 1fr); }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
   :root { --gutter: 18px; }
-  .hero__inner { grid-template-columns: 1fr; }
+  .hero { padding-top: 40px; padding-bottom: 56px; }
+  .hero__inner { grid-template-columns: 1fr; gap: 32px; }
+  .hero__lead { margin-top: 16px; }
+  .hero__cta { flex-direction: column; align-items: stretch; margin-top: 24px; }
+  .hero__cta .btn { justify-content: center; width: 100%; }
+  .hero__trust { gap: 12px; font-size: 12px; }
+  .phone { width: min(260px, 72vw); }
   .prog-grid { grid-template-columns: 1fr; }
+  .prog-card { padding: 18px; }
   .features-grid { grid-template-columns: 1fr; }
-  .readout { display: none; }
   .install { padding: 30px 24px; }
 }
